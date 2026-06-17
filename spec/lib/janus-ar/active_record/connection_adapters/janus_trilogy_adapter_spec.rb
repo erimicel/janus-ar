@@ -52,7 +52,7 @@ RSpec.describe ActiveRecord::ConnectionAdapters::JanusTrilogyAdapter do
       ).to eq config.merge('database' => database, 'found_rows' => true).symbolize_keys
     end
 
-    context 'Rails sets empty database for server connection' do
+    context 'when Rails sets empty database for server connection' do
       let(:database) { nil }
 
       it 'creates primary connection as expected' do

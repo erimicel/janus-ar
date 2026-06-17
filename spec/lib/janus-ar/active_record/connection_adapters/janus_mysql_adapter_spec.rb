@@ -50,7 +50,7 @@ RSpec.describe ActiveRecord::ConnectionAdapters::JanusMysql2Adapter do
       ).to eq config.merge('database' => database, 'flags' => ::Janus::Client::FOUND_ROWS).symbolize_keys
     end
 
-    context 'Rails sets empty database for server connection' do
+    context 'when Rails sets empty database for server connection' do
       let(:database) { nil }
 
       it 'creates primary connection as expected' do

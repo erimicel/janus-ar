@@ -83,7 +83,7 @@ module Janus
     end
 
     def replica_connection
-      @replica_connection ||= replica_adapter_class.new(@replica_config)
+      @_replica_connection ||= replica_adapter_class.new(@replica_config)
     end
 
     private
@@ -126,10 +126,11 @@ module Janus
     # propagates unchanged.
     def guard_replica(failover_result = nil)
       yield
-    rescue *REPLICA_FAILOVER_ERRORS => e
+    rescue *REPLICA_FAILOVER_ERRORS => error
       raise unless @replica_failover
 
-      Janus::Logging::Logger.log("replica unavailable, falling back to primary (#{e.class}: #{e.message})", :warn)
+      Janus::Logging::Logger.log("replica unavailable, falling back to primary (#{error.class}: #{error.message})",
+:warn)
       failover_result
     end
   end

@@ -1,26 +1,59 @@
 inherit_from:
-  - https://tech.olioex.com/.support/rubocop-styling-v1.0
+  - https://tech.olioex.com/.support/rubocop-styling-v2.0.yml
 
-require:
+plugins:
+  - rubocop-performance
   - rubocop-rails
+  - rubocop-rspec
+  - rubocop-thread_safety
 
-Style/Documentation:
-  Enabled: false
+# v2.0 disables cops by default and only wires up Performance/Rails. Keep the
+# RSpec and (for a connection-routing gem, valuable) thread-safety cops on too.
+RSpec:
+  Enabled: true
+ThreadSafety:
+  Enabled: true
 
-Rails/Delegate:
-  Enabled: false
-
-Metrics/BlockLength:
-  Exclude:
-    - spec/**/*
-
+# --- Project style ----------------------------------------------------------
+# This gem is written single-quoted; keep it.
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+# Keep frozen string literals: the gem supports Ruby 3.2+, where dropping them
+# would make string literals mutable again and add allocations.
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: always
+# Prefer the explicit before(:each)/after(:each) form.
+RSpec/HookArgument:
+  EnforcedStyle: each
+# `$query_logger` is a deliberate global in the test harness.
 Style/GlobalVars:
   Exclude:
     - 'spec/**/*'
-
+# The entrypoint is named to match the gem (`janus-ar`), not a constant.
 Naming/FileName:
   Exclude:
     - lib/janus-ar.rb
 
-Metrics/AbcSize:
-  Max: 25
+# --- Test threads are intentional; the logger setter is a config API --------
+ThreadSafety/NewThread:
+  Exclude:
+    - 'spec/**/*'
+ThreadSafety/ClassAndModuleAttributes:
+  Exclude:
+    - lib/janus-ar/logging/logger.rb
+
+# --- RSpec cops too opinionated for this suite ------------------------------
+RSpec/MultipleExpectations:
+  Enabled: false
+RSpec/ExampleLength:
+  Enabled: false
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+RSpec/NamedSubject:
+  Enabled: false
+RSpec/MessageSpies:
+  Enabled: false
+RSpec/VerifiedDoubles:
+  Enabled: false
+RSpec/SpecFilePathFormat:
+  Enabled: false

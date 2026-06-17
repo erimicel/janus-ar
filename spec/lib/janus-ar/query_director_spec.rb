@@ -3,6 +3,7 @@
 RSpec.describe Janus::QueryDirector do
   describe 'Constants' do
     it { expect(described_class::SQL_SKIP_ALL_MATCHERS).to eq [/\A\s*set\s+local\s/i] }
+
     it {
       expect(described_class::SQL_PRIMARY_MATCHERS).to eq(
         [
@@ -12,6 +13,7 @@ RSpec.describe Janus::QueryDirector do
         ]
       )
     }
+
     it { expect(described_class::SQL_REPLICA_MATCHERS).to eq([/\A\s*(select|with.+\)\s*select)\s/i]) }
     it { expect(described_class::SQL_ALL_MATCHERS).to eq([/\A\s*set\s/i]) }
 
@@ -78,7 +80,7 @@ RSpec.describe Janus::QueryDirector do
       {
         'a line (--) comment then a write' => "-- triggered by job 42\nUPDATE orders SET state = 1",
         'a hash (#) comment then a write' => "# backfill\nDELETE FROM orders",
-        'a block comment then a write' => "/* migration */ ALTER TABLE orders ADD COLUMN x INT",
+        'a block comment then a write' => '/* migration */ ALTER TABLE orders ADD COLUMN x INT',
       }.each do |label, query|
         it "routes #{label} to the primary" do
           expect(described_class.new(query, 0).where_to_send?).to eq(:primary)

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 RSpec.shared_examples 'a mysql like server' do
   let(:create_test_table) { ActiveRecord::Base.connection.execute("CREATE TABLE `#{table_name}` (id INT);") }
 
@@ -34,7 +35,7 @@ RSpec.shared_examples 'a mysql like server' do
       expect($query_logger.queries.first).to include '[replica]'
     end
 
-    it 'will read from primary after a write operation' do
+    it 'reads from primary after a write operation' do
       create_test_table
       $query_logger.flush_all
       ActiveRecord::Base.connection.execute("SELECT * FROM `#{table_name}`;")

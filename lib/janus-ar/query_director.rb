@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Janus
   class QueryDirector
     ALL = :all
@@ -69,7 +70,7 @@ module Janus
     # Avoid copying the statement when there is no leading comment/whitespace to
     # strip, which is the common case for ActiveRecord-generated SQL.
     def normalized_sql
-      @normalized_sql ||= strip_leading_noise
+      @_normalized_sql ||= strip_leading_noise
     end
 
     def strip_leading_noise

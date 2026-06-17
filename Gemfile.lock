@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    janus-ar (7.2.0)
+    janus-ar (8.0.0)
       activerecord (>= 8.0, < 9.0)
 
 GEM
@@ -121,18 +121,18 @@ GEM
 
 PLATFORMS
   arm64-darwin-23
+  arm64-darwin-25
   x86_64-linux
 
 DEPENDENCIES
-  activesupport (>= 8.0)
   janus-ar!
   mysql2
   pry
   rake
   rspec (~> 3)
-  rubocop (~> 1.86.0)
+  rubocop (~> 1.86)
   rubocop-performance
-  rubocop-rails (~> 2.35.2)
+  rubocop-rails (~> 2.35)
   rubocop-rspec
   rubocop-thread_safety
   trilogy

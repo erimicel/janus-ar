@@ -4,4 +4,9 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-      
+    groups:
+      # Collapse the frequent RuboCop bumps into a single PR.
+      rubocop:
+        patterns:
+          - "rubocop"
+          - "rubocop-*"

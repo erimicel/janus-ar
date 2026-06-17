@@ -4,7 +4,7 @@ RSpec.describe Janus::Logging::Logger do
   describe '.log' do
     let(:logger) { double('logger') }
 
-    before do
+    before(:each) do
       described_class.logger = logger
     end
 
